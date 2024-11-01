@@ -13,7 +13,8 @@ config_version=5
 config/name="DROQENS COMPLETE TAROT"
 run/main_scene="res://tabletop/tabletop.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-config/icon="res://pixel/card-back.png"
+boot_splash/image="res://icon.png"
+config/icon="res://icon.png"
 
 [display]
 

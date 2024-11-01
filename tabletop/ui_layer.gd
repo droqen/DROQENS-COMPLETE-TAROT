@@ -15,7 +15,7 @@ func _input(event: InputEvent) -> void:
 					print("screenshot!")
 					await get_tree().process_frame
 					var capture = get_viewport().get_texture().get_image()
-					var capturebuf : PackedByteArray = capture.save_jpg_to_buffer()
+					var capturebuf : PackedByteArray = capture.save_png_to_buffer()
 					var _bufsize : int = capturebuf.size()
 					
 					var now = Time.get_datetime_dict_from_system()
@@ -28,7 +28,7 @@ func _input(event: InputEvent) -> void:
 					
 					#var _time = Time.get_datetime_string_from_system()
 					var file : FileAccess = FileAccess.open(
-						"capture/%s.jpg" % [run_start_time_label],
+						"capture/%s.png" % [run_start_time_label],
 						FileAccess.WRITE
 					)
 					if file:
