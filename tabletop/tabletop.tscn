@@ -1,9 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://d27v4bhn60b7l"]
+[gd_scene load_steps=16 format=3 uid="uid://d27v4bhn60b7l"]
 
 [ext_resource type="Texture2D" uid="uid://cxgp2sgjvohnv" path="res://pixel/ace-of-pentacles.png" id="1_ysq1t"]
 [ext_resource type="Texture2D" uid="uid://bu4wgipa5l30v" path="res://pixel/card-back.png" id="2_ps01s"]
 [ext_resource type="Texture2D" uid="uid://6p10ly4c0vnl" path="res://megalarge/wood_table_worn_diff_4k.jpg" id="3_mxggf"]
-[ext_resource type="Texture2D" uid="uid://d2vioufr1ecag" path="res://megalarge/crt_light_texture.png" id="3_t12gv"]
 [ext_resource type="Texture2D" uid="uid://cc7rxv7f3y13m" path="res://megalarge/wood_table_worn_disp_4k.png" id="4_6rxg8"]
 
 [sub_resource type="SystemFont" id="SystemFont_w25ml"]
@@ -35,6 +34,10 @@ margin = 1.0
 size = Vector3(0.7, 1.2, 0.01)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bfkyt"]
+sky_top_color = Color(0.459488, 0.705945, 1, 1)
+sky_horizon_color = Color(1, 0.694621, 0.522859, 1)
+ground_bottom_color = Color(0.219608, 0.203922, 0.211765, 1)
+ground_horizon_color = Color(0.235294, 0.192157, 0.180392, 1)
 
 [sub_resource type="Sky" id="Sky_ouuja"]
 sky_material = SubResource("ProceduralSkyMaterial_bfkyt")
@@ -42,6 +45,12 @@ sky_material = SubResource("ProceduralSkyMaterial_bfkyt")
 [sub_resource type="Environment" id="Environment_54k0m"]
 background_mode = 2
 sky = SubResource("Sky_ouuja")
+glow_enabled = true
+glow_strength = 2.0
+fog_light_energy = 0.0
+fog_density = 0.0
+fog_aerial_perspective = 1.0
+fog_sky_affect = 0.352
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_yewjm"]
 size = Vector2(10, 10)
@@ -59,17 +68,49 @@ margin = 1.0
 
 [node name="Tabletop" type="Node3D"]
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.680785, 0.732484, 0, -0.732484, 0.680785, 0, 0.669806, 0.818487)
+[node name="camPivot2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.141519, 0)
 
-[node name="Label3D" type="Label3D" parent="Camera3D"]
+[node name="yaw" type="Node3D" parent="camPivot2"]
+transform = Transform3D(0.387242, 0, 0.921978, 0, 1, 0, -0.921978, 0, 0.387242, 0, 0, 0)
+
+[node name="pitch" type="Node3D" parent="camPivot2/yaw"]
+transform = Transform3D(1, 0, 0, 0, 0.998629, 0.052336, 0, -0.052336, 0.99863, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="camPivot2/yaw/pitch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+fov = 45.0
+
+[node name="Label3D" type="Label3D" parent="camPivot2/yaw/pitch/Camera3D"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 3.72529e-09, 0, -3.72529e-09, 0.1, 0, -0.03, -0.089)
 visible = false
 text = "test"
 font = SubResource("SystemFont_w25ml")
 
-[node name="card" type="RigidBody3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="camPivot2/yaw/pitch"]
+transform = Transform3D(0.985795, -0.028504, 0.165516, -0.0544141, 0.878131, 0.475316, -0.158893, -0.47757, 0.864107, 0.0895273, 0.954588, 0.0400052)
+shadow_enabled = true
+
+[node name="card(phys)" type="RigidBody3D" parent="."]
+process_mode = 4
 transform = Transform3D(0.84051, 0.541796, 2.36827e-08, 0, -4.37114e-08, 1, 0.541796, -0.84051, -3.67399e-08, 0.113149, 0, -0.0568746)
+visible = false
+
+[node name="cardfront" type="MeshInstance3D" parent="card(phys)"]
+transform = Transform3D(1, -2.98023e-08, -7.45058e-09, 4.84288e-08, -5.96046e-08, -1, 7.45058e-09, 1, -8.9407e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_kg85m")
+surface_material_override/0 = SubResource("StandardMaterial3D_7h8fy")
+
+[node name="cardback" type="MeshInstance3D" parent="card(phys)"]
+transform = Transform3D(-1, -8.74228e-08, 3.82137e-15, 0, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_kg85m")
+surface_material_override/0 = SubResource("StandardMaterial3D_hoy24")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="card(phys)"]
+shape = SubResource("BoxShape3D_voym5")
+
+[node name="card" type="Node3D" parent="."]
+transform = Transform3D(0.767398, -0.133864, 0.627041, -0.590691, 0.232748, 0.772601, -0.249366, -0.96328, 0.0995381, 0, 0, 0)
 
 [node name="cardfront" type="MeshInstance3D" parent="card"]
 transform = Transform3D(1, -2.98023e-08, -7.45058e-09, 4.84288e-08, -5.96046e-08, -1, 7.45058e-09, 1, -8.9407e-08, 0, 0, 0)
@@ -81,29 +122,17 @@ transform = Transform3D(-1, -8.74228e-08, 3.82137e-15, 0, -4.37114e-08, -1, 8.74
 mesh = SubResource("PlaneMesh_kg85m")
 surface_material_override/0 = SubResource("StandardMaterial3D_hoy24")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="card"]
-shape = SubResource("BoxShape3D_voym5")
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_54k0m")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.974029, -0.226361, 0.00538758, 0.0466982, -0.177545, 0.983004, -0.221557, 0.957726, 0.183505, -0.180205, 0.776864, -0.038168)
-visible = false
-
-[node name="SpotLight3D" type="SpotLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.702048)
-light_projector = ExtResource("3_t12gv")
-shadow_enabled = true
-spot_angle = 80.0
-spot_angle_attenuation = 0.0693481
-
 [node name="tabletop_plane" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.410051, 0)
 mesh = SubResource("PlaneMesh_yewjm")
 surface_material_override/0 = SubResource("StandardMaterial3D_4dri5")
 
 [node name="tabletop_body" type="StaticBody3D" parent="."]
+process_mode = 4
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="tabletop_body"]
 shape = SubResource("WorldBoundaryShape3D_7h0lr")
