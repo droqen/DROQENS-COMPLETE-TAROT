@@ -90,7 +90,7 @@ text = "test"
 font = SubResource("SystemFont_w25ml")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="camPivot2/yaw/pitch"]
-transform = Transform3D(-0.953438, -0.0353261, -0.299514, -0.0844563, 0.984656, 0.152714, 0.289524, 0.170898, -0.941791, 0.0895273, 0.954588, 0.0400052)
+transform = Transform3D(0.985795, -0.028504, 0.165516, -0.0544141, 0.878131, 0.475316, -0.158893, -0.47757, 0.864107, 0.0895273, 0.954588, 0.0400052)
 shadow_enabled = true
 shadow_bias = 0.002
 

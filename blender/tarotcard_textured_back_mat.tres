@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cxev4crni0kls"]
+
+[ext_resource type="Texture2D" uid="uid://bu4wgipa5l30v" path="res://pixel/card-back.png" id="1_xysiy"]
+
+[resource]
+albedo_texture = ExtResource("1_xysiy")
+uv1_scale = Vector3(1.44, 1, 0.835)
+uv1_offset = Vector3(0.5, 0, 0.705)
+uv1_triplanar = true
+texture_filter = 0
+texture_repeat = false

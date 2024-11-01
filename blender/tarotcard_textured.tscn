@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://ivc56ujy61pb"]
+
+[ext_resource type="PackedScene" uid="uid://ndlr725po87p" path="res://blender/tarotcard.glb" id="1_u7vps"]
+[ext_resource type="Material" uid="uid://bs1j5y4dxgben" path="res://blender/tarotcard_textured_front_mat.tres" id="2_7isjr"]
+[ext_resource type="Material" uid="uid://cxev4crni0kls" path="res://blender/tarotcard_textured_back_mat.tres" id="2_oh3e3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k6gqf"]
+albedo_color = Color(0.972369, 0.641169, 0, 1)
+metallic = 1.0
+roughness = 0.12
+texture_filter = 0
+texture_repeat = false
+
+[node name="tarotcard" instance=ExtResource("1_u7vps")]
+
+[node name="Plane" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_7isjr")
+surface_material_override/1 = ExtResource("2_oh3e3")
+surface_material_override/2 = SubResource("StandardMaterial3D_k6gqf")
