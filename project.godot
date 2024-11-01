@@ -11,12 +11,20 @@ config_version=5
 [application]
 
 config/name="DROQENS COMPLETE TAROT"
-run/main_scene="res://main.tscn"
+run/main_scene="res://tabletop/tabletop.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://pixel/card-back.png"
 
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=640
+
+[physics]
+
+3d/default_gravity=1.0
+
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.12563, 0.112826, 0.194165, 1)
+anti_aliasing/quality/msaa_3d=3
